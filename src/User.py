@@ -10,22 +10,25 @@ class UserController:
         if input_option == "L":
             self.login()
         elif input_option == "Q":
-            exit()
+            exit(0x45)
         else:
             print("Invalid option")
             self.__init__()
 
 
     def login(self):
-        print("Login")
-        username: str = input("Username: ")
-        password: str = input("Password: ")
+        # Give the user 3 tries to login
+        for i in range(3):
+            username = input("Username: ")
+            password = input("Password: ")
 
-        user = UserModel(username, password).findByUsername()
+            # Check if the password is correct and the user exists
+            user = UserModel(username, password).findByUsername()
 
-        if user:
-            print("Welcome", username)
-        else:
-            print("Wrong credentials")
-
-        self.__init__()
+            # If the password is correct and the user exists log them in
+            if user:
+                print("Welcome {}".format(username))
+                break
+            else:
+                #Another attempt babby
+                print("Invalid username or password")
